@@ -1,0 +1,22 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="flameGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffdd33" />
+      <stop offset="50%" stop-color="#ff6600" />
+      <stop offset="100%" stop-color="#cc0000" />
+    </linearGradient>
+    <linearGradient id="bodyGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fa8c16" />
+      <stop offset="100%" stop-color="#d4380d" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="#111418" />
+  <path d="M520,220 C540,180 590,160 640,180 C600,120 520,90 460,150 C360,200 280,180 240,120 C200,200 260,260 320,240 C380,220 420,300 520,220 Z" fill="url(#flameGradient)" opacity="0.9" />
+  <path d="M340,260 C320,320 280,360 240,420 C260,450 300,440 330,420 C360,400 380,360 420,340 C450,320 500,330 530,380 C560,430 490,450 430,430 C390,420 360,400 340,360 Z" fill="url(#flameGradient)" opacity="0.8" />
+  <path d="M340,260 C360,220 420,200 470,220 C500,240 540,290 520,340 C500,390 430,410 380,390 C340,370 320,320 340,260 Z" fill="url(#bodyGradient)" />
+  <path d="M320,240 C285,200 255,170 230,150 C200,125 180,140 170,180 C160,220 190,260 230,280 C270,300 300,300 320,240 Z" fill="#ffb020" opacity="0.9" />
+  <path d="M500,190 C520,170 560,170 590,190 C620,210 625,240 600,260 C570,285 530,280 500,260 C470,240 465,210 500,190 Z" fill="#ffb020" opacity="0.9" />
+  <circle cx="430" cy="260" r="12" fill="#111418" />
+  <path d="M400,320 C420,300 430,280 450,260" stroke="#111418" stroke-width="10" stroke-linecap="round" fill="none" />
+  <text x="50%" y="560" fill="#ffffff" font-family="Segoe UI, sans-serif" font-size="32" text-anchor="middle">Phoenix 불사조</text>
+</svg>
