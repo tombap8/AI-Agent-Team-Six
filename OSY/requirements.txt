@@ -1,0 +1,9 @@
+# google-generativeai
+# python-dotenv
+
+# 버전 사용시 제미나이 2.0 / 2.5 까지 사용가능(교수님 권장)
+google-generativeai==0.5.4
+python-dotenv==0.21.1
+
+# cmd> pip install -r requirements.txt
+openai==2.41.1
