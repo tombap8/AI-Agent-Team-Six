@@ -1,0 +1,15 @@
+--- PARSED RESULTS ---
+biz_reg_no: 123-45-67890
+owner_name: 이모료
+established_date: 2021-07-20
+brand_name: (월 테스트브랜드
+address_detail: 서臣특별시 마포구 서교도 365-8
+success: True
+
+--- RAW TEXT ---
+사 업 자 등 록증
+등록 번호• 123-45-67890
+성호: (월 테스트브랜드
+대표자 이모료
+개업연월일: 2021년 07월 20일
+사업장소재지: 서臣특별시 마포구 서교도 365-8
