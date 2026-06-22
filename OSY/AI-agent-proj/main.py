@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+# pyrefly: ignore [missing-import]
 import matplotlib.pyplot as plt
 import uuid
 import datetime
@@ -667,16 +668,19 @@ elif menu == "💬 AI RAG 법률상담 & 리뷰요약":
         # Sample Question templates
         st.write("**추천 질문 클릭:**")
         col_q1, col_q2 = st.columns(2)
+        if "chat_query_input" not in st.session_state:
+            st.session_state.chat_query_input = ""
+
         with col_q1:
             q_template1 = "상가 임차인의 권리금 회수 보호 기간이 어떻게 되나요?"
             q_template2 = "시설권리금 감가상각 공식과 연식 기준이 있나요?"
             
             if st.button(q_template1):
-                st.session_state.chat_query = q_template1
+                st.session_state.chat_query_input = q_template1
                 st.session_state.auto_submit = True
                 st.rerun()
             if st.button(q_template2):
-                st.session_state.chat_query = q_template2
+                st.session_state.chat_query_input = q_template2
                 st.session_state.auto_submit = True
                 st.rerun()
         with col_q2:
@@ -684,16 +688,16 @@ elif menu == "💬 AI RAG 법률상담 & 리뷰요약":
             q_template4 = "영업권리금 수익환원법은 어떻게 순수익을 가치로 바꾸나요?"
             
             if st.button(q_template3):
-                st.session_state.chat_query = q_template3
+                st.session_state.chat_query_input = q_template3
                 st.session_state.auto_submit = True
                 st.rerun()
             if st.button(q_template4):
-                st.session_state.chat_query = q_template4
+                st.session_state.chat_query_input = q_template4
                 st.session_state.auto_submit = True
                 st.rerun()
                 
         # Main text query
-        current_query = st.text_input("질문을 직접 입력하세요", key="chat_query_input", value=st.session_state.get("chat_query", ""))
+        current_query = st.text_input("질문을 직접 입력하세요", key="chat_query_input")
         
         submit_clicked = st.button("질문 전송")
         
