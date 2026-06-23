@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STARTUP AGENT - 창업 통합 에이전트 기획안</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;600;700&display=swap');
+        
+        :root {
+            --bg-warm: #fdfbf7;
+            --primary: #2563eb;
+            --slate-800: #1e293b;
+        }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--bg-warm);
+            color: var(--slate-800);
+            overflow-x: hidden;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 1.5rem;
+        }
+
+        .nav-link {
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .step-card {
+            transition: transform 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        input[type="range"] {
+            accent-color: var(--primary);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Chosen Palette: Warm Professionalism (아이보리 배경, 신뢰감을 주는 블루와 슬레이트 그레이 조합) -->
+    <!-- Application Structure Plan: 
+        1. 전략적 대시보드(Home): 시장의 문제점과 해결책을 한눈에 보여주는 요약 섹션.
+        2. 지능형 검증(Security): OCR 및 국세청 API 연동 프로세스를 시뮬레이션하여 신뢰성 강조.
+        3. 하이브리드 벨류에이션(Valuation): 보고서의 원가법/수익환원법 수식을 적용한 실시간 권리금 계산기.
+        4. 상권 인사이트(Market): 빅데이터 기반의 업종별 생존율 및 매출 추이 시각화.
+        5. 아키텍처 로드맵(System): 기술 스택과 DB 구조를 정보 아키텍처로 시각화.
+    -->
+    <!-- Visualization & Content Choices: 
+        - Bar Charts: 업종별 매물 현황 시각화.
+        - Doughnut Chart: 권리금 구성 요소(시설, 영업, 바닥)의 비중 표시.
+        - Terminal Simulation: 보안 검증 단계를 텍스트 로그 형식으로 표현.
+        - Interactive Slider: 감가상각 및 수익 가치 변동을 즉각 반영하는 계산 도구.
+        - NO SVG/Mermaid: 모든 다이어그램은 HTML/CSS와 유니코드, Canvas로 구현.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Header & Nav -->
+    <header class="fixed top-0 w-full z-50 glass-panel rounded-none border-t-0 border-x-0 bg-white/80">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">S</div>
+                <span class="text-xl font-bold tracking-tight text-slate-900">STARTUP AGENT</span>
+            </div>
+            <nav class="hidden md:flex gap-8 text-sm font-medium text-slate-500">
+                <button onclick="switchTab('home')" id="nav-home" class="nav-link active">전략 요약</button>
+                <button onclick="switchTab('verify')" id="nav-verify" class="nav-link">보안 검증</button>
+                <button onclick="switchTab('calc')" id="nav-calc" class="nav-link">권리금 산정</button>
+                <button onclick="switchTab('market')" id="nav-market" class="nav-link">상권 분석</button>
+                <button onclick="switchTab('tech')" id="nav-tech" class="nav-link">시스템 구조</button>
+            </nav>
+            <button class="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-blue-600 transition-colors">데모 신청</button>
+        </div>
+    </header>
+
+    <main class="pt-28 pb-20 px-6 max-w-7xl mx-auto">
+
+        <!-- SECTION 1: STRATEGIC OVERVIEW -->
+        <div id="tab-home" class="tab-content active">
+            <section class="mb-16">
+                <div class="max-w-3xl">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
+                        깜깜이 창업 시장, <br><span class="text-blue-600">데이터와 AI</span>로 투명하게 연결합니다.
+                    </h1>
+                    <p class="text-lg text-slate-600 leading-relaxed">
+                        매년 발생하는 수천 건의 점포 거래 사기와 권리금 분쟁. STARTUP AGENT는 국세청 API와 하이브리드 가치 산정 모델을 통해 예비 창업자의 자산을 보호하고 최적의 사업 기회를 매칭합니다.
+                    </p>
+                </div>
+            </section>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="glass-panel p-8">
+                    <div class="text-3xl mb-4">🛡️</div>
+                    <h3 class="text-lg font-bold mb-2">무결성 검증</h3>
+                    <p class="text-sm text-slate-500">위조된 사업자등록증과 임대차계약서를 실시간 API로 대조하여 가짜 점주를 원천 차단합니다.</p>
+                </div>
+                <div class="glass-panel p-8 border-blue-100 bg-blue-50/30">
+                    <div class="text-3xl mb-4">📊</div>
+                    <h3 class="text-lg font-bold mb-2">과학적 산정</h3>
+                    <p class="text-sm text-slate-500">주관적 합의에 의존하던 권리금을 시설 잔존 가치와 수익 환원 가치로 정밀하게 계산합니다.</p>
+                </div>
+                <div class="glass-panel p-8">
+                    <div class="text-3xl mb-4">🚀</div>
+                    <h3 class="text-lg font-bold mb-2">프랜차이즈 매칭</h3>
+                    <p class="text-sm text-slate-500">1만여 개 브랜드의 정보공개서를 분석하여 사용자 자본금에 최적화된 가맹점을 추천합니다.</p>
+                </div>
+            </div>
+
+            <div class="glass-panel p-8 mb-12">
+                <h3 class="text-xl font-bold mb-6">전국 주요 업종별 매물 등록 현황</h3>
+                <div class="chart-container">
+                    <canvas id="marketBarChart"></canvas>
+                </div>
+                <p class="mt-6 text-xs text-slate-400 text-center">※ 플랫폼 내부 실시간 집계 데이터 기준 (카페, 한식, 고깃집이 상위 비중 차지)</p>
+            </div>
+        </div>
+
+        <!-- SECTION 2: SECURITY VERIFICATION -->
+        <div id="tab-verify" class="tab-content">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">지능형 보안 에이전트 엔진</h2>
+                    <p class="text-slate-600">허위 매물 등록을 방지하기 위한 4단계 데이터 무결성 검증 프로세스</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4 step-card">
+                            <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">1</span>
+                            <div>
+                                <h4 class="font-bold">지능형 OCR 분석</h4>
+                                <p class="text-sm text-slate-500">업로드된 사업자등록증 이미지에서 고유 번호와 성명을 자동 추출합니다.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 step-card">
+                            <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">2</span>
+                            <div>
+                                <h4 class="font-bold">국세청 API 대조</h4>
+                                <p class="text-sm text-slate-500">공공데이터포털을 통해 사업자 상태(계속/휴업/폐업)를 즉각 확인합니다.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 step-card">
+                            <span class="bg-blue-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold shrink-0">3</span>
+                            <div>
+                                <h4 class="font-bold">실명/임대차 일치 확인</h4>
+                                <p class="text-sm text-slate-500">등기부등본 및 임대차계약서상의 점주 일치 여부를 대조합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 rounded-2xl p-6 text-green-400 font-mono text-sm shadow-2xl">
+                        <div class="flex items-center gap-2 mb-4 border-b border-slate-700 pb-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="ml-2 text-slate-400 text-xs">Security_Kernel_v1.0.exe</span>
+                        </div>
+                        <div id="log-screen" class="h-48 overflow-y-auto space-y-1">
+                            <div>> System Ready...</div>
+                        </div>
+                        <button onclick="runSimulation()" class="w-full mt-4 bg-green-600 text-slate-900 font-bold py-2 rounded hover:bg-green-500 transition-colors">검증 시뮬레이션 시작</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: VALUATION CALCULATOR -->
+        <div id="tab-calc" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-4 space-y-6">
+                    <h2 class="text-2xl font-bold">AI 하이브리드 권리금 계산기</h2>
+                    <p class="text-sm text-slate-500">감정평가 실무 지침에 따라 시설 가치(원가법)와 영업 가치(수익환원법)를 합산하여 산출합니다.</p>
+                    
+                    <div class="glass-panel p-6 space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">최초 인테리어 비용 (만원)</label>
+                            <input type="number" id="base-cost" value="8000" class="w-full p-2 rounded-lg border border-slate-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">운영 기간 (개월)</label>
+                            <input type="range" id="months" min="0" max="60" value="24" class="w-full">
+                            <div class="text-right text-xs text-blue-600 font-bold"><span id="months-val">24</span>개월 경과</div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">월 평균 순이익 (만원)</label>
+                            <input type="number" id="profit" value="500" class="w-full p-2 rounded-lg border border-slate-200">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">입지 보정 계수 (바닥권리)</label>
+                            <select id="loc-factor" class="w-full p-2 rounded-lg border border-slate-200">
+                                <option value="1.2">A급 (메인 상권/역세권)</option>
+                                <option value="1.0" selected>B급 (일반 배후지)</option>
+                                <option value="0.8">C급 (외곽/쇠퇴 상권)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 glass-panel p-8 flex flex-col md:flex-row items-center gap-10">
+                    <div class="w-full md:w-1/2">
+                        <h4 class="text-center font-bold mb-4">가치 구성 분석</h4>
+                        <div class="chart-container" style="height: 250px;">
+                            <canvas id="valuationPieChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 space-y-6">
+                        <div class="p-6 bg-slate-900 rounded-2xl text-white">
+                            <span class="text-slate-400 text-xs">최종 추정 권리 가치</span>
+                            <div class="text-4xl font-bold text-blue-400 mt-1"><span id="final-price">0</span> 만원</div>
+                        </div>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between border-b pb-2">
+                                <span class="text-slate-500">시설 권리 (감가상각 반영)</span>
+                                <span id="val-facility" class="font-semibold text-slate-800">0 만원</span>
+                            </div>
+                            <div class="flex justify-between border-b pb-2">
+                                <span class="text-slate-500">영업 권리 (1년 순수익 기준)</span>
+                                <span id="val-operating" class="font-semibold text-slate-800">0 만원</span>
+                            </div>
+                            <div class="flex justify-between border-b pb-2">
+                                <span class="text-slate-500">입지 가중치 합산</span>
+                                <span id="val-location" class="font-semibold text-blue-600">0 만원</span>
+                            </div>
+                        </div>
+                        <p class="text-[10px] text-slate-400 leading-tight">※ 본 수치는 입지, 시설 노후도, 업종별 평균 권리금을 분석한 AI 추정치이며 실제 거래 시 차이가 발생할 수 있습니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: MARKET INSIGHTS -->
+        <div id="tab-market" class="tab-content">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold mb-4">빅데이터 기반 상권 지표</h2>
+                <p class="text-slate-600">여신금융협회 매출 데이터와 공공 데이터를 결합한 실시간 상권 분석 리포트</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-panel p-8">
+                    <h4 class="font-bold mb-6">오프라인 vs 배달 매출 비중 추이</h4>
+                    <div class="chart-container">
+                        <canvas id="salesTrendChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel p-8">
+                    <h4 class="font-bold mb-6">주요 업종별 3년 생존율 비교</h4>
+                    <div class="chart-container">
+                        <canvas id="survivalChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 p-6 bg-blue-600 rounded-2xl text-white flex items-center justify-between">
+                <div>
+                    <h5 class="text-xl font-bold mb-1">AI 위기 상권 조기 경보 시스템</h5>
+                    <p class="text-blue-100 text-sm">유동 인구 급감 및 폐업률 급증 지역을 선제적으로 감지하여 알림을 제공합니다.</p>
+                </div>
+                <button class="bg-white text-blue-600 px-6 py-2 rounded-full font-bold hover:bg-blue-50 transition-colors shrink-0">상세 리포트 보기</button>
+            </div>
+        </div>
+
+        <!-- SECTION 5: SYSTEM TECH -->
+        <div id="tab-tech" class="tab-content">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4">신뢰할 수 있는 기술 아키텍처</h2>
+                    <p class="text-slate-600">무결성 거래와 대용량 상권 분석을 위한 하이브리드 클라우드 설계</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="border border-slate-200 p-8 rounded-3xl text-center">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4 font-bold text-xl">01</div>
+                        <h4 class="font-bold mb-4">Presentation</h4>
+                        <div class="space-y-2 text-sm text-slate-500 font-mono">
+                            <p>React / Tailwind</p>
+                            <p>Chart.js Dashboard</p>
+                            <p>Real-time Alerts</p>
+                        </div>
+                    </div>
+                    <div class="border-2 border-blue-600 p-8 rounded-3xl text-center relative">
+                        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] px-3 py-1 rounded-full uppercase font-bold tracking-widest">Core Engine</div>
+                        <div class="w-12 h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center mx-auto mb-4 font-bold text-xl">02</div>
+                        <h4 class="font-bold mb-4">Application AI</h4>
+                        <div class="space-y-2 text-sm text-slate-500 font-mono">
+                            <p>OCR & API Verifier</p>
+                            <p>Valuation Logic</p>
+                            <p>Matching Algorithm</p>
+                        </div>
+                    </div>
+                    <div class="border border-slate-200 p-8 rounded-3xl text-center">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4 font-bold text-xl">03</div>
+                        <h4 class="font-bold mb-4">Data Persistence</h4>
+                        <div class="space-y-2 text-sm text-slate-500 font-mono">
+                            <p>PostgreSQL (Transactions)</p>
+                            <p>MongoDB (Market Logs)</p>
+                            <p>Redis (Real-time)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-12 p-8 glass-panel bg-slate-50 border-dashed">
+                    <h5 class="font-bold mb-4 flex items-center gap-2">
+                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> 데이터 출처 인덱스
+                    </h5>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-slate-400">
+                        <p>• 국세청 사업자 등록 API</p>
+                        <p>• 공정위 정보공개서 데이터</p>
+                        <p>• 소상공인시장진흥공단 상권 API</p>
+                        <p>• 여신금융협회 가맹점 매출</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-12 px-6">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div>
+                <h3 class="font-bold text-slate-900 mb-2">STARTUP AGENT</h3>
+                <p class="text-xs text-slate-400">© 2024 Startup Agent AI Platform. 혁신적인 창업 생태계를 지향합니다.</p>
+            </div>
+            <div class="flex gap-6 text-sm text-slate-500">
+                <a href="#" class="hover:text-blue-600 transition">이용약관</a>
+                <a href="#" class="hover:text-blue-600 transition">개인정보처리방침</a>
+                <a href="#" class="hover:text-blue-600 transition">고객지원</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.getElementById('nav-' + tabId).classList.add('active');
+
+            // Re-render charts to fix sizing if needed
+            window.dispatchEvent(new Event('resize'));
+        }
+
+        // Security Simulation Logic
+        function runSimulation() {
+            const screen = document.getElementById('log-screen');
+            screen.innerHTML = '';
+            const logs = [
+                "> 이미지 파일 업로드 확인: business_reg_001.jpg",
+                "> OCR 엔진 구동 중... [추출 완료]",
+                "> 추출 데이터: 124-85-XXXXX / 홍길동 / 카페_아라",
+                "> 국세청 공공 API 연결 시도...",
+                "> API 응답 대기... [SUCCESS]",
+                "> 상태 정보: 계속사업자 (부가가치세 일반과세자)",
+                "> 신분증 대조 결과: 일치 (98.5%)",
+                "> [검증 완료] 신뢰 점수: EXCELLENT"
+            ];
+
+            logs.forEach((log, i) => {
+                setTimeout(() => {
+                    const div = document.createElement('div');
+                    div.innerText = log;
+                    div.style.color = log.includes('SUCCESS') || log.includes('완료') ? '#4ade80' : '#4ade80';
+                    screen.appendChild(div);
+                    screen.scrollTop = screen.scrollHeight;
+                }, i * 600);
+            });
+        }
+
+        // --- CHART INITIALIZATIONS ---
+
+        // 1. Market Bar Chart
+        const ctxMarket = document.getElementById('marketBarChart').getContext('2d');
+        new Chart(ctxMarket, {
+            type: 'bar',
+            data: {
+                labels: ['카페', '한식', '고깃집', '미용실', '스크린골프', '편의점', '독서실'],
+                datasets: [{
+                    label: '등록 매물 수',
+                    data: [3031, 2157, 1216, 708, 493, 382, 898],
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: { 
+                    y: { grid: { display: false }, ticks: { font: { size: 10 } } },
+                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+
+        // 2. Valuation Pie Chart
+        let valPie;
+        function updatePie(data) {
+            const ctxPie = document.getElementById('valuationPieChart').getContext('2d');
+            if (valPie) valPie.destroy();
+            valPie = new Chart(ctxPie, {
+                type: 'doughnut',
+                data: {
+                    labels: ['시설 권리', '영업 권리', '입지 보정'],
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#2563eb', '#1e293b', '#cbd5e1'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 } } } }
+                }
+            });
+        }
+
+        // 3. Sales Trend
+        const ctxSales = document.getElementById('salesTrendChart').getContext('2d');
+        new Chart(ctxSales, {
+            type: 'line',
+            data: {
+                labels: ['1월', '2월', '3월', '4월', '5월', '6월'],
+                datasets: [{
+                    label: '오프라인 매출',
+                    data: [3200, 3100, 3400, 2800, 3600, 4100],
+                    borderColor: '#1e293b',
+                    tension: 0.4
+                }, {
+                    label: '배달 매출',
+                    data: [1500, 1800, 1600, 2200, 1900, 2400],
+                    borderColor: '#3b82f6',
+                    tension: 0.4
+                }]
+            },
+            options: { maintainAspectRatio: false }
+        });
+
+        // 4. Survival Chart
+        const ctxSurvival = document.getElementById('survivalChart').getContext('2d');
+        new Chart(ctxSurvival, {
+            type: 'bar',
+            data: {
+                labels: ['커피', '한식', '편의점', '미용실'],
+                datasets: [{
+                    label: '일반 자영업',
+                    data: [42, 38, 55, 48],
+                    backgroundColor: '#e2e8f0'
+                }, {
+                    label: '에이전트 추천',
+                    data: [68, 62, 78, 71],
+                    backgroundColor: '#2563eb'
+                }]
+            },
+            options: { maintainAspectRatio: false }
+        });
+
+        // Calculation Logic
+        function calculate() {
+            const cost = parseFloat(document.getElementById('base-cost').value);
+            const months = parseInt(document.getElementById('months').value);
+            const profit = parseFloat(document.getElementById('profit').value);
+            const factor = parseFloat(document.getElementById('loc-factor').value);
+
+            document.getElementById('months-val').innerText = months;
+
+            // 1. Facility: Linear depreciation for 60 months
+            const facilityVal = Math.max(0, cost * (1 - (months / 60)));
+            // 2. Operating: 12 months profit
+            const operatingVal = profit * 12;
+            // 3. Raw Total
+            const rawTotal = facilityVal + operatingVal;
+            // 4. Final with location factor
+            const finalVal = rawTotal * factor;
+            const locationExtra = finalVal - rawTotal;
+
+            document.getElementById('final-price').innerText = Math.round(finalVal).toLocaleString();
+            document.getElementById('val-facility').innerText = Math.round(facilityVal).toLocaleString() + ' 만원';
+            document.getElementById('val-operating').innerText = Math.round(operatingVal).toLocaleString() + ' 만원';
+            document.getElementById('val-location').innerText = Math.round(locationExtra).toLocaleString() + ' 만원';
+
+            updatePie([facilityVal, operatingVal, Math.abs(locationExtra)]);
+        }
+
+        // Listeners for calculator
+        ['base-cost', 'months', 'profit', 'loc-factor'].forEach(id => {
+            document.getElementById(id).addEventListener('input', calculate);
+        });
+
+        // Initialize
+        window.onload = calculate;
+
+    </script>
+</body>
+</html>
