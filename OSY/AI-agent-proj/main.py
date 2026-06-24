@@ -186,7 +186,7 @@ st.sidebar.info("💡 **가상환경 활성화 상태**\nPython 3.14.5 (.venv)")
 # Page 1: 🏠 종합 대시보드
 # ---------------------------------------------
 if menu == "🏠 종합 대시보드":
-    st.markdown("<h1 class='gradient-title'>점포 창업 및 양도양수 에이전트 대시보드</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='gradient-title'>창업 에이전트 대시보드</h1>", unsafe_allow_html=True)
     
     # 3-column stats
     col1, col2, col3 = st.columns(3)
