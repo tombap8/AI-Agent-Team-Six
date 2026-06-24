@@ -198,6 +198,10 @@ if menu == "🏠 종합 대시보드":
             <div style="color: #475569; font-size: 0.95rem; margin-top: 10px;">식음료 매물 등록</div>
             <div class="metric-val">6,404 건</div>
             <div style="color: #059669; font-size: 0.85rem; margin-top: 5px;">▲ 카페/한식 업종 위주 거래 활성화</div>
+            <div style="margin-top: 12px; border-top: 1px solid rgba(15,23,42,0.06); padding-top: 10px; font-size: 0.8rem; color: #64748B; line-height: 1.45;">
+                카페, 베이커리 등 식음료(F&B)는 양도양수 시장에서 거래 회전율이 가장 높은 핵심 업종군입니다.
+            </div>
+            <div style="font-size: 0.7rem; color: #94A3B8; text-align: right; margin-top: 6px;">[출처: 공정거래위원회 가맹사업정보제공시스템]</div>
         </div>
         """, unsafe_allow_html=True)
         
@@ -208,6 +212,10 @@ if menu == "🏠 종합 대시보드":
             <div style="color: #475569; font-size: 0.95rem; margin-top: 10px;">오락스포츠 매물</div>
             <div class="metric-val">931 건</div>
             <div style="color: #D97706; font-size: 0.85rem; margin-top: 5px;">⚠ 초기 장비 고가 설비 검증 유의</div>
+            <div style="margin-top: 12px; border-top: 1px solid rgba(15,23,42,0.06); padding-top: 10px; font-size: 0.8rem; color: #64748B; line-height: 1.45;">
+                스크린골프, PC방 등 고가 장비 감가상각과 실제 시설물 작동 여부에 대한 정밀 실사가 필요합니다.
+            </div>
+            <div style="font-size: 0.7rem; color: #94A3B8; text-align: right; margin-top: 6px;">[출처: 국토교통부 표준 권리 산정 고시 및 현장 감정 기준]</div>
         </div>
         """, unsafe_allow_html=True)
         
@@ -218,6 +226,10 @@ if menu == "🏠 종합 대시보드":
             <div style="color: #475569; font-size: 0.95rem; margin-top: 10px;">누적 차단 허위 매물</div>
             <div class="metric-val">231 건</div>
             <div style="color: #DC2626; font-size: 0.85rem; margin-top: 5px;">🔒 국세청 API 대조 실시간 차단율 100%</div>
+            <div style="margin-top: 12px; border-top: 1px solid rgba(15,23,42,0.06); padding-top: 10px; font-size: 0.8rem; color: #64748B; line-height: 1.45;">
+                가상 정보나 폐업된 등록번호를 기재한 허위/위조 점포 매물을 실시간 API 조회를 통해 차단했습니다.
+            </div>
+            <div style="font-size: 0.7rem; color: #94A3B8; text-align: right; margin-top: 6px;">[출처: 홈택스 국세청 사업자등록상태조회 API]</div>
         </div>
         """, unsafe_allow_html=True)
 
