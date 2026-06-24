@@ -15,7 +15,8 @@ FRANCHISE_DB = {
         "total_initial": 97000000,      # 합계 창업비용
         "avg_annual_sales": 328000000,  # 가맹점 평균 연매출
         "store_count": 3031,            # 가맹점 수
-        "royalty": "월 150,000원 (부가세 별도)"
+        "royalty": "월 150,000원 (부가세 별도)",
+        "aliases": ["mega", "메가", "mega coffee"]
     },
     "교촌치킨": {
         "brand_name": "교촌치킨 (Kyochon)",
@@ -27,7 +28,8 @@ FRANCHISE_DB = {
         "total_initial": 120800000,
         "avg_annual_sales": 648000000,
         "store_count": 1375,
-        "royalty": "매출의 1% - 3% 수준"
+        "royalty": "매출의 1% - 3% 수준",
+        "aliases": ["kyochon", "교촌"]
     },
     "컴포즈커피": {
         "brand_name": "컴포즈커피 (Compose Coffee)",
@@ -39,7 +41,8 @@ FRANCHISE_DB = {
         "total_initial": 91700000,
         "avg_annual_sales": 253000000,
         "store_count": 2400,
-        "royalty": "월 200,000원 고정"
+        "royalty": "월 200,000원 고정",
+        "aliases": ["compose", "컴포즈"]
     },
     "이마트24": {
         "brand_name": "이마트24 (Emart24)",
@@ -51,7 +54,8 @@ FRANCHISE_DB = {
         "total_initial": 77500000,
         "avg_annual_sales": 412000000,
         "store_count": 6500,
-        "royalty": "월회비 고정형 (수수료 배분 방식에 따라 상이)"
+        "royalty": "월회비 고정형 (수수료 배분 방식에 따라 상이)",
+        "aliases": ["emart", "이마트", "emart24"]
     },
     "파리바게뜨": {
         "brand_name": "파리바게뜨 (Paris Baguette)",
@@ -63,7 +67,73 @@ FRANCHISE_DB = {
         "total_initial": 243000000,
         "avg_annual_sales": 729000000,
         "store_count": 3400,
-        "royalty": "매출의 2.5%"
+        "royalty": "매출의 2.5%",
+        "aliases": ["paris", "파리바게트", "빠바", "파리"]
+    },
+    "공차": {
+        "brand_name": "공차 (Gong Cha)",
+        "category": "식음료 (음료전문점)",
+        "membership_fee": 11000000,
+        "deposit": 5000000,
+        "interior_cost": 60000000,
+        "other_cost": 40000000,
+        "total_initial": 116000000,
+        "avg_annual_sales": 320000000,
+        "store_count": 920,
+        "royalty": "매출의 3%",
+        "aliases": ["gong", "gongcha", "버블티"]
+    },
+    "동대문엽기떡볶이": {
+        "brand_name": "동대문엽기떡볶이 (Dongdaemun Yupdduk)",
+        "category": "식음료 (분식전문점)",
+        "membership_fee": 14300000,
+        "deposit": 5000000,
+        "interior_cost": 45000000,
+        "other_cost": 35000000,
+        "total_initial": 99300000,
+        "avg_annual_sales": 610000000,
+        "store_count": 659,
+        "royalty": "매출의 2% 고정",
+        "aliases": ["엽떡", "엽기떡볶이", "동대문엽떡", "yupdduk"]
+    },
+    "빽다방": {
+        "brand_name": "빽다방 (Paik's Coffee)",
+        "category": "식음료 (커피전문점)",
+        "membership_fee": 8800000,
+        "deposit": 3000000,
+        "interior_cost": 50000000,
+        "other_cost": 28000000,
+        "total_initial": 89800000,
+        "avg_annual_sales": 298000000,
+        "store_count": 1450,
+        "royalty": "월 250,000원 고정",
+        "aliases": ["빽", "paik", "빽다방"]
+    },
+    "맘스터치": {
+        "brand_name": "맘스터치 (Mom's Touch)",
+        "category": "식음료 (패스트푸드)",
+        "membership_fee": 5500000,
+        "deposit": 5000000,
+        "interior_cost": 65000000,
+        "other_cost": 55000000,
+        "total_initial": 130500000,
+        "avg_annual_sales": 485000000,
+        "store_count": 1420,
+        "royalty": "매출액의 1% (또는 재료 공급가 대비 산정)",
+        "aliases": ["moms", "맘스", "맘스터치"]
+    },
+    "bbq": {
+        "brand_name": "BBQ치킨 (Genesis BBQ)",
+        "category": "식음료 (치킨전문점)",
+        "membership_fee": 11000000,
+        "deposit": 5000000,
+        "interior_cost": 50000000,
+        "other_cost": 32000000,
+        "total_initial": 98000000,
+        "avg_annual_sales": 425000000,
+        "store_count": 2040,
+        "royalty": "매출액의 3.5% (또는 공급품목에 포함)",
+        "aliases": ["bbq", "비비큐", "genesis"]
     }
 }
 
@@ -139,7 +209,10 @@ def search_franchise(query, api_key=None, api_provider="duckduckgo"):
     
     # 1. 메인 5대 브랜드 로컬 매칭 확인 (성능 및 정확성 우선)
     for key, val in FRANCHISE_DB.items():
-        if query_clean.lower() in key.lower() or query_clean.lower() in val["brand_name"].lower():
+        aliases = val.get("aliases", [])
+        if (query_clean.lower() in key.lower() or 
+            query_clean.lower() in val["brand_name"].lower() or 
+            any(query_clean.lower() in alias.lower() for alias in aliases)):
             sources = [
                 {
                     "title": f"공정거래위원회 가맹사업거래 공식 정보 - {val['brand_name']}",
@@ -230,8 +303,8 @@ def search_franchise(query, api_key=None, api_provider="duckduckgo"):
             
     # 업종 카테고리 자동 유추
     category = "식음료 (기타 외식업)"
-    if any(w in query_clean for w in ["커피", "카페", "다방", "커스텀", "빽", "투썸", "이디야", "하삼동", "컴포즈", "메가"]):
-        category = "식음료 (커피전문점)"
+    if any(w in query_clean for w in ["커피", "카페", "다방", "커스텀", "빽", "투썸", "이디야", "하삼동", "컴포즈", "메가", "공차", "차", "티", "버블티"]):
+        category = "식음료 (커피/음료전문점)"
     elif any(w in query_clean for w in ["치킨", "닭", "bhc", "비비큐", "굽네", "네네", "처갓집", "교촌"]):
         category = "식음료 (치킨전문점)"
     elif any(w in query_clean for w in ["편의점", "마트", "24", "세븐", "gs", "cu"]):
@@ -246,12 +319,12 @@ def search_franchise(query, api_key=None, api_provider="duckduckgo"):
         category = "판매/서비스 (스터디카페)"
 
     # 업종 카테고리에 따른 창업 비용 기본 템플릿 세팅
-    if "커피" in category:
+    if "커피" in category or "음료" in category:
         membership_fee = 7500000
         deposit = 3000000
         interior_cost = 45000000
         other_cost = 25000000
-        royalty = "월 150,000원 ~ 200,000원 고정"
+        royalty = "매출의 3%" if "공차" in query_clean else "월 150,000원 ~ 200,000원 고정"
     elif "치킨" in category:
         membership_fee = 8500000
         deposit = 5000000
