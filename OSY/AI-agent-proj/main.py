@@ -1021,8 +1021,8 @@ elif menu == "💬 AI RAG 법률상담 & 매장리뷰요약":
                 ans, sources = generate_rag_response(current_query)
                 st.markdown(f"""
                 <div class="glass-card" style="border-left: 5px solid #4F46E5;">
-                    <h4 style="margin:0 0 10px 0; color:#0D9488;">🤖 에이전트 답변:</h4>
-                    <p style="line-height:1.6;">{ans}</p>
+                    <h4 style="margin:0 0 15px 0; color:#0D9488;">🤖 에이전트 답변:</h4>
+                    <div style="line-height:1.8; font-size: 1rem; color: var(--text-color);">{ans}</div>
                 </div>
                 """, unsafe_allow_html=True)
                 
